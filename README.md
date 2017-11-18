@@ -4,6 +4,7 @@
 
 ### Hardware
 Created as a [Kinetis® Design Studio](https://www.nxp.com/products/wireless-connectivity/zigbee/kinetis-design-studio-integrated-development-environment-ide:KDS_IDE) project for [FRDM-KL46Z](https://www.nxp.com/products/processors-and-microcontrollers/arm-based-processors-and-mcus/kinetis-cortex-m-mcus/l-seriesultra-low-powerm0-plus/freedom-development-platform-for-kinetis-kl3x-and-kl4x-mcus:FRDM-KL46Z) (Freedom Development Platform for Kinetis KL3x and KL4x MCUs) from NXP
+
 ![Picture of FRDM-KL46Z](FRDM-KL46Z_BDTN.jpg "FRDM-KL46Z")
 
 ### SNES Button functions
