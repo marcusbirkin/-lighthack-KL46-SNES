@@ -145,18 +145,20 @@ static void eos_task(void *pvParameters) {
 
 
 	for(;;) {
-		/*
-		 * EOS doesn't set DTR
-		 * So pretend it's set!
-		 */
-		usb_cdc_acm_info_t *acmInfo = &s_usbCdcAcmInfo;
-		acmInfo->uartState |= USB_DEVICE_CDC_UART_STATE_RX_CARRIER;
-		s_cdcVcom.startTransactions = 1;
+		if (s_cdcVcom.attach) {
+			/*
+			 * EOS doesn't set DTR
+			 * So pretend it's set!
+			 */
+			usb_cdc_acm_info_t *acmInfo = &s_usbCdcAcmInfo;
+			acmInfo->uartState |= USB_DEVICE_CDC_UART_STATE_RX_CARRIER;
+			s_cdcVcom.startTransactions = 1;
 
-		/* Do background USB */
-		USB_DeviceCdcAcmSend(s_cdcVcom.cdcAcmHandle, USB_CDC_VCOM_BULK_IN_ENDPOINT, NULL, 0);
+			/* Do background USB */
+			USB_DeviceCdcAcmSend(s_cdcVcom.cdcAcmHandle, USB_CDC_VCOM_BULK_IN_ENDPOINT, NULL, 0);
+		}
 
-        if ((1 == s_cdcVcom.attach) && (1 == s_cdcVcom.startTransactions))
+        if ((s_cdcVcom.attach) && (s_cdcVcom.startTransactions))
         {
     		/* Deal with any RX */
             if ((0 != s_recvSize) && (0xFFFFFFFF != s_recvSize))
