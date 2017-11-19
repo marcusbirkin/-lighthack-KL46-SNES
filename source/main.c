@@ -63,35 +63,11 @@ static void snes_task(void *pvParameters) {
 
 	SNES_Init();
 
-	TickType_t savedButtonTick[SNES_BUTTON_COUNT];
-	for (int n = 0; n < SNES_BUTTON_COUNT; n++)
-		savedButtonTick[n] = SNES_BUTTONSTATE_UP;
-
 	for (;;) {
 		LED_GREEN_TOGGLE();
 
 		// Read buttons
 		SNES_ReadButtons();
-
-		// Check buttons
-		for (int n = 0; n < SNES_BUTTON_COUNT; n++ ) {
-			if (SNES_ButtonStatus[n].Tick != savedButtonTick[n]) {
-				// New button event
-				switch (SNES_ButtonStatus[n].State) {
-					case SNES_BUTTONSTATE_UP:
-						break;
-					case SNES_BUTTONSTATE_DOWN:
-						PRINTF("Down: %s\r\n", SNES_ButtonString[n]);
-						break;
-					case SNES_BUTTONSTATE_DOWN_REPEAT:
-						PRINTF("Repeat: %s\r\n", SNES_ButtonString[n]);
-						break;
-				}
-
-				// Save last seen time
-				savedButtonTick[n] = SNES_ButtonStatus[n].Tick;
-			}
-		}
 
 		vTaskDelay(xRefresh);
 	}

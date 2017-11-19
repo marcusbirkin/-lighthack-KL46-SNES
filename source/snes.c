@@ -108,12 +108,16 @@ void SNES_ReadButtons() {
 				if ( SNES_ButtonStatus[n].Tick + SNES_FirstRepeatRateTick < xTaskGetTickCount()) {
 					SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_DOWN_REPEAT;
 					SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+
+					PRINTF("SNES Repeat: %s\r\n", SNES_ButtonString[n]);
 				}
 				break;
 			case SNES_BUTTONSTATE_DOWN_REPEAT:
 				// Still repeating
 				if ( SNES_ButtonStatus[n].Tick + SNES_ContinuousRepeatRateTick < xTaskGetTickCount()) {
 					SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+
+					PRINTF("SNES Repeat: %s\r\n", SNES_ButtonString[n]);
 				}
 				break;
 			default:
@@ -121,39 +125,19 @@ void SNES_ReadButtons() {
 				// New button down!
 				SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_DOWN;
 				SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+
+				PRINTF("SNES Down: %s\r\n", SNES_ButtonString[n]);
 				break;
 			}
 		} else  {
-			// New or still up
-			SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_UP;
-			SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+			if (SNES_ButtonStatus[n].State != SNES_BUTTONSTATE_UP) {
+				// New Up
+				SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_UP;
+				SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+
+				PRINTF("SNES Up: %s\r\n", SNES_ButtonString[n]);
+			}
 		}
 	}
-
-//	// Debug buttons
-//	if (button_data & SNES_BUTTON_MASK_B)
-//		PRINTF("B\r\n");
-//	if (button_data & SNES_BUTTON_MASK_Y)
-//		PRINTF("Y\r\n");
-//	if (button_data & SNES_BUTTON_MASK_SELECT)
-//		PRINTF("Select\r\n");
-//	if (button_data & SNES_BUTTON_MASK_START)
-//		PRINTF("Start\r\n");
-//	if (button_data & SNES_BUTTON_MASK_UP)
-//		PRINTF("Up\r\n");
-//	if (button_data & SNES_BUTTON_MASK_DOWN)
-//		PRINTF("Down\r\n");
-//	if (button_data & SNES_BUTTON_MASK_LEFT)
-//		PRINTF("Left\r\n");
-//	if (button_data & SNES_BUTTON_MASK_RIGHT)
-//		PRINTF("Right\r\n");
-//	if (button_data & SNES_BUTTON_MASK_A)
-//		PRINTF("A\r\n");
-//	if (button_data & SNES_BUTTON_MASK_X)
-//		PRINTF("X\r\n");
-//	if (button_data & SNES_BUTTON_MASK_L)
-//		PRINTF("L\r\n");
-//	if (button_data & SNES_BUTTON_MASK_R)
-//		PRINTF("R\r\n");
 }
 
