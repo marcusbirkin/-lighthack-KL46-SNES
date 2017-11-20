@@ -39,9 +39,6 @@ inline void SNES_WAIT() {
 void SNES_Init() {
 	/* Setup pins */
 
-	// Working LED
-	LED_GREEN_INIT(0);
-
 	// Clock
 	gpio_pin_config_t clk_config =
 	{

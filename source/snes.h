@@ -28,18 +28,18 @@ typedef enum {
 } SNES_Buttons;
 
 const static char *SNES_ButtonString[SNES_BUTTON_COUNT] = {
-		"B",
-		"Y",
-		"SELECT",
-		"START",
-		"UP",
-		"DOWN",
-		"LEFT",
-		"RIGHT",
-		"A",
-		"X",
-		"L",
-		"R"};
+		"SNES_B",
+		"SNES_Y",
+		"SNES_SELECT",
+		"SNES_START",
+		"SNES_UP",
+		"SNES_DOWN",
+		"SNES_LEFT",
+		"SNES_RIGHT",
+		"SNES_A",
+		"SNES_X",
+		"SNES_L",
+		"SNES_R"};
 
 typedef enum {
 	SNES_BUTTONSTATE_UP,
