@@ -214,7 +214,8 @@ void txOSC() {
 		/* Unsolicited handshake and ping */
 		if (xTaskGetTickCount() > lastPing + pingInterval) {
 			slip_send(EOS_Handshake_Response, sizeof(EOS_Handshake_Response) - 1);
-			slip_send(EOS_OSC_PING, sizeof(EOS_OSC_PING));
+			sprintf((char*)osccmd,"/%s/%s", EOS_OSC, EOS_OSC_PING);
+			slip_send(osccmd, strlen((char *)osccmd) + 1);
 			lastPing = xTaskGetTickCount();
 		}
 		return;
