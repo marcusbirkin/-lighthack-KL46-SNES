@@ -12,18 +12,18 @@ Created as a [Kinetis® Design Studio](https://www.nxp.com/products/wireless-con
 
 | SNES BUTTON   | EOS ACTION    | 
 |:-------------:|:-------------:|
-| UP            | Tilt Up       |
-| DOWN          | Tilt Down     |
-| LEFT          | Pan Left      |
-| RIGHT         | Pan Right     |
+| UP            | Tilt +%       |
+| DOWN          | Tilt -%       |
+| LEFT          | Pan -%        |
+| RIGHT         | Pan +%        |
 | SELECT        | Highlight     |
-| START         | Chan 1        |
-| L             | Prev          |
-| R             | Next          |
-| Y             |               |
-| X             |               |
-| B             |               |
-| A             |               |
+| START         | Chan 1#       |
+| L             | Prev#         |
+| R             | Next#         |
+| Y             | Macro labeled 'SNES_Y' |
+| X             | Macro labeled 'SNES_X' |
+| B             | Macro labeled 'SNES_B' |
+| A             | Macro labeled 'SNES_A' |
 
 ### SNES Pinout:
 <pre>
