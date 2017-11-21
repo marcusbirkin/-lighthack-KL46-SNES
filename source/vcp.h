@@ -445,6 +445,13 @@ usb_status_t USB_DeviceCallback(usb_device_handle handle, uint32_t event, void *
                                                              (usb_device_get_configuration_descriptor_struct_t *)param);
             }
             break;
+        case kUSB_DeviceEventGetStringDescriptor:
+            if (param)
+            {
+                /* Get device string descriptor request */
+                error = USB_DeviceGetStringDescriptor(handle, (usb_device_get_string_descriptor_struct_t *)param);
+            }
+            break;
         default:
             break;
     }

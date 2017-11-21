@@ -356,9 +356,9 @@ static void eos_task(void *pvParameters) {
 	/* Init */
 	LED_RED_INIT(0);
 
-
 	/* Start USB */
 	USB_DeviceApplicationInit();
+	vTaskDelay(1000 / portTICK_PERIOD_MS);
 
 	for(;;) {
 		if (s_cdcVcom.attach) {

@@ -115,9 +115,9 @@ uint8_t g_UsbDeviceDescriptor[] = {
     /* Maximum packet size for endpoint zero (only 8, 16, 32, or 64 are valid) */
     USB_CONTROL_MAX_PACKET_SIZE,
     /* Vendor ID (assigned by the USB-IF) */
-    0xC9U, 0x1FU,
+    0x03U, 0x2AU,
     /* Product ID (assigned by the manufacturer) */
-    0x94, 0x00,
+    0x43U, 0x00U,
     /* Device release number in binary-coded decimal */
     USB_SHORT_GET_LOW(USB_DEVICE_DEMO_BCD_VERSION), USB_SHORT_GET_HIGH(USB_DEVICE_DEMO_BCD_VERSION),
     /* Index of string descriptor describing manufacturer */
@@ -216,53 +216,50 @@ uint8_t g_UsbDeviceConfigurationDescriptor[] = {
 
 /* Define string descriptor */
 USB_DMA_INIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE)
-uint8_t g_UsbDeviceString0[] = {2U + 2U, USB_DESCRIPTOR_TYPE_STRING, 0x09, 0x04};
+uint8_t g_UsbDeviceString0[] = {2U + 2U, USB_DESCRIPTOR_TYPE_STRING, 0x09, 0x04}; // 0x0409 English - United States
 
 USB_DMA_INIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE)
 uint8_t g_UsbDeviceString1[] = {
-    2U + 2U * 18U, USB_DESCRIPTOR_TYPE_STRING,
-    'N',           0x00U,
-    'X',           0x00U,
-    'P',           0x00U,
-    ' ',           0x00U,
-    'S',           0x00U,
-    'E',           0x00U,
+    2U + 2U * 13U, USB_DESCRIPTOR_TYPE_STRING,
     'M',           0x00U,
-    'I',           0x00U,
-    'C',           0x00U,
-    'O',           0x00U,
-    'N',           0x00U,
-    'D',           0x00U,
-    'U',           0x00U,
-    'C',           0x00U,
-    'T',           0x00U,
-    'O',           0x00U,
+    'A',           0x00U,
     'R',           0x00U,
+    'C',           0x00U,
+    'U',           0x00U,
     'S',           0x00U,
+    ' ',           0x00U,
+    'B',           0x00U,
+    'I',           0x00U,
+    'R',           0x00U,
+    'K',           0x00U,
+    'I',           0x00U,
+    'N',           0x00U,
 };
 
 USB_DMA_INIT_DATA_ALIGN(USB_DATA_ALIGN_SIZE)
-uint8_t g_UsbDeviceString2[] = {2U + 2U * 20U, USB_DESCRIPTOR_TYPE_STRING,
-                                'M',           0,
-                                'C',           0,
-                                'U',           0,
-                                ' ',           0,
-                                'V',           0,
-                                'I',           0,
-                                'R',           0,
-                                'T',           0,
-                                'U',           0,
-                                'A',           0,
-                                'L',           0,
-                                ' ',           0,
-                                'C',           0,
-                                'O',           0,
-                                'M',           0,
-                                ' ',           0,
-                                'D',           0,
-                                'E',           0,
-                                'M',           0,
-                                'O',           0};
+uint8_t g_UsbDeviceString2[] = {
+	2U + 2U * 20U, USB_DESCRIPTOR_TYPE_STRING,
+	'#',           0,
+	'L',           0,
+	'I',           0,
+	'G',           0,
+	'H',           0,
+	'T',           0,
+	'H',           0,
+	'A',           0,
+	'C',           0,
+	'K',           0,
+	' ',           0,
+	'K',           0,
+	'L',           0,
+	'4',           0,
+	'6',           0,
+	' ',           0,
+	'S',           0,
+	'N',           0,
+	'E',           0,
+	'S',           0,
+};
 
 uint8_t *g_UsbDeviceStringDescriptorArray[USB_DEVICE_STRING_COUNT] = {g_UsbDeviceString0, g_UsbDeviceString1,
                                                                       g_UsbDeviceString2};
