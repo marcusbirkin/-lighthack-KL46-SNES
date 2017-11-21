@@ -62,5 +62,6 @@
 	unsigned int EOS_Macro_SNES_B = 0;
 	unsigned int EOS_Macro_SNES_X = 0;
 	unsigned int EOS_Macro_SNES_Y = 0;
+	unsigned int EOS_Macro_SNES_KONAMI = 0;
 
 #endif /* SOURCE_EOS_H_ */

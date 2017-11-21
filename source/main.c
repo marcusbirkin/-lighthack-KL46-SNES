@@ -184,6 +184,8 @@ void rxOSC() {
 											EOS_Macro_SNES_X = macroNum;
 										else if (strcmp((char*)argValue, SNES_ButtonString[SNES_BUTTON_Y]) == 0)
 											EOS_Macro_SNES_Y = macroNum;
+										else if (strcmp((char*)argValue, SNES_ButtonString[SNES_KONAMI]) == 0)
+											EOS_Macro_SNES_KONAMI = macroNum;
 									}
 								}
 
@@ -328,7 +330,13 @@ void txOSC() {
 								slip_send(osccmd, strlen((char *)osccmd) + 1);
 							}
 							break;
-						break;
+						case (SNES_KONAMI):
+							if (EOS_Macro_SNES_KONAMI) {
+								PRINTF("EOS: FIRE MACRO %d\r\n", EOS_Macro_SNES_KONAMI);
+								sprintf((char*)osccmd,"/%s/%s/%u/%s", EOS_OSC, EOS_OSC_MACRO, EOS_Macro_SNES_KONAMI, EOS_OSC_MACRO_FIRE);
+								slip_send(osccmd, strlen((char *)osccmd) + 1);
+							}
+							break;
 					}
 					break;
 			}

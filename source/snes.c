@@ -78,61 +78,76 @@ void SNES_Init() {
 
 void SNES_ReadButtons() {
 	const uint8_t button_count = 16;
-	uint16_t button_index = 0;
-	uint16_t button_data = 0;
+	uint16_t buttonIndex = 0;
+	uint16_t buttonData = 0;
 
 	// Latch data and read first button
 	SNES_LAT(1);
 	SNES_WAIT();
 	SNES_LAT(0);
-	button_data |= SNES_READ_DATA(button_index);
+	buttonData |= SNES_READ_DATA(buttonIndex);
 
 	// Clock data in
-	for (; button_index < button_count; button_index++) {
+	for (; buttonIndex < button_count; buttonIndex++) {
 		SNES_CLK(0);
 		SNES_WAIT();
-		button_data |= SNES_READ_DATA(button_index);
+		buttonData |= SNES_READ_DATA(buttonIndex);
 		SNES_CLK(1);
 		SNES_WAIT();
 	}
 
 	// Save state
-	for (int n = 0; n < SNES_BUTTON_COUNT; n++) {
-		if (button_data & 1U << n) {
-			switch (SNES_ButtonStatus[n].State) {
+	for (buttonIndex = 0; buttonIndex < SNES_BUTTON_COUNT - 1; buttonIndex++) {
+		if (buttonData & 1U << buttonIndex) {
+			switch (SNES_ButtonStatus[buttonIndex].State) {
 			case SNES_BUTTONSTATE_DOWN:
 				// Not new, but maybe repeating now?
-				if ( SNES_ButtonStatus[n].Tick + SNES_FirstRepeatRateTick < xTaskGetTickCount()) {
-					SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_DOWN_REPEAT;
-					SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+				if ( SNES_ButtonStatus[buttonIndex].Tick + SNES_FirstRepeatRateTick < xTaskGetTickCount()) {
+					SNES_ButtonStatus[buttonIndex].State = SNES_BUTTONSTATE_DOWN_REPEAT;
+					SNES_ButtonStatus[buttonIndex].Tick = xTaskGetTickCount();
 
-					PRINTF("SNES Repeat: %s\r\n", SNES_ButtonString[n]);
+					PRINTF("SNES Repeat: %s\r\n", SNES_ButtonString[buttonIndex]);
 				}
 				break;
 			case SNES_BUTTONSTATE_DOWN_REPEAT:
 				// Still repeating
-				if ( SNES_ButtonStatus[n].Tick + SNES_ContinuousRepeatRateTick < xTaskGetTickCount()) {
-					SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+				if ( SNES_ButtonStatus[buttonIndex].Tick + SNES_ContinuousRepeatRateTick < xTaskGetTickCount()) {
+					SNES_ButtonStatus[buttonIndex].Tick = xTaskGetTickCount();
 
-					PRINTF("SNES Repeat: %s\r\n", SNES_ButtonString[n]);
+					PRINTF("SNES Repeat: %s\r\n", SNES_ButtonString[buttonIndex]);
 				}
 				break;
 			default:
 			case SNES_BUTTONSTATE_UP:
 				// New button down!
-				SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_DOWN;
-				SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+				SNES_ButtonStatus[buttonIndex].State = SNES_BUTTONSTATE_DOWN;
+				SNES_ButtonStatus[buttonIndex].Tick = xTaskGetTickCount();
 
-				PRINTF("SNES Down: %s\r\n", SNES_ButtonString[n]);
+				if (SNES_KONAMI_ARRAY[SNES_KONAMI_INDEX++] == buttonIndex)
+				{
+					if (SNES_KONAMI_INDEX == sizeof(SNES_KONAMI_ARRAY)) {
+						SNES_KONAMI_INDEX = 0;
+						SNES_ButtonStatus[SNES_KONAMI].State = SNES_BUTTONSTATE_DOWN;
+						SNES_ButtonStatus[SNES_KONAMI].Tick = xTaskGetTickCount();
+
+						PRINTF("SNES COMBO: %s\r\n", SNES_ButtonString[SNES_KONAMI]);
+					}
+				} else {
+					SNES_KONAMI_INDEX = 0;
+					SNES_ButtonStatus[SNES_KONAMI].State = SNES_BUTTONSTATE_UP;
+					SNES_ButtonStatus[SNES_KONAMI].Tick = xTaskGetTickCount();
+				}
+
+				PRINTF("SNES Down: %s\r\n", SNES_ButtonString[buttonIndex]);
 				break;
 			}
 		} else  {
-			if (SNES_ButtonStatus[n].State != SNES_BUTTONSTATE_UP) {
+			if (SNES_ButtonStatus[buttonIndex].State != SNES_BUTTONSTATE_UP) {
 				// New Up
-				SNES_ButtonStatus[n].State = SNES_BUTTONSTATE_UP;
-				SNES_ButtonStatus[n].Tick = xTaskGetTickCount();
+				SNES_ButtonStatus[buttonIndex].State = SNES_BUTTONSTATE_UP;
+				SNES_ButtonStatus[buttonIndex].Tick = xTaskGetTickCount();
 
-				PRINTF("SNES Up: %s\r\n", SNES_ButtonString[n]);
+				PRINTF("SNES Up: %s\r\n", SNES_ButtonString[buttonIndex]);
 			}
 		}
 	}
